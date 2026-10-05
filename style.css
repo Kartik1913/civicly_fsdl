@@ -1,0 +1,126 @@
+/*
+   CIVICLY — Custom Stylesheet (Pure CSS)
+   Syllabus Concepts Demonstrated:
+   - Box Model (margin, padding, border, radius)
+   - Colors, Backgrounds, Linear Gradients
+   - Typography & Text Shadow
+   - Positioning & Z-index
+   - Simple Transitions & Hover States
+*/
+
+:root {
+  --primary-blue: #0f172a;
+  --accent-blue: #2563eb;
+  --accent-cyan: #06b6d4;
+  --accent-green: #10b981;
+  --bg-light: #f8fafc;
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-dark);
+  background-color: #ffffff;
+  line-height: 1.6;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(37, 99, 235, 0.85)), url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1200') no-repeat center center/cover;
+  padding: 110px 0 90px 0;
+  border-bottom: 4px solid var(--accent-cyan);
+}
+
+.hero-title {
+  font-size: 3.25rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.hero-subtitle {
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+/* Section Spacing & Titles */
+.section-padding {
+  padding: 80px 0;
+}
+
+.section-title {
+  font-weight: 800;
+  color: var(--primary-blue);
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.section-title::after {
+  content: '';
+  width: 50px;
+  height: 4px;
+  background: var(--accent-blue);
+  display: block;
+  margin: 10px auto 0 auto;
+  border-radius: 2px;
+}
+
+/* Cards & Category Styling */
+.category-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
+}
+
+.category-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+/* Issue Card Styling */
+.issue-card {
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.issue-card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Filter Button Active State */
+.btn-filter.active {
+  background-color: var(--accent-blue) !important;
+  color: #ffffff !important;
+  border-color: var(--accent-blue) !important;
+}
+
+/* Form Container */
+.form-box {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
+
+/* Ticket Display Card */
+.ticket-card {
+  background-color: #f0fdf4;
+  border: 2px dashed var(--accent-green);
+  border-radius: 12px;
+}
+
+/* Footer Styling */
+footer {
+  background-color: var(--primary-blue);
+  color: #94a3b8;
+  border-top: 1px solid #334155;
+}

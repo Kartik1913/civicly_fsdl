@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIVICLY — See it. Report it. Track it.</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="#">
+        🏙️ CIVICLY
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#civiclyNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="civiclyNavbar">
+        <ul class="navbar-nav ms-auto font-weight-medium">
+          <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#categories">Categories</a></li>
+          <li class="nav-item"><a class="nav-link" href="#issues">Issues Queue</a></li>
+          <li class="nav-item"><a class="nav-link" href="#report">Report an Issue</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero-section text-white text-center">
+    <div class="container">
+      <h1 class="hero-title mb-3">Your City. Your Voice.</h1>
+      <p class="hero-subtitle max-w-xl mx-auto mb-3">Report civic problems and help make your neighbourhood better.</p>
+      <p class="text-light mb-4">CIVICLY makes it simple for citizens to report everyday civic problems and keep track of their progress.</p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="#report" class="btn btn-primary btn-lg fw-bold px-4 py-2 rounded-pill shadow">Report an Issue</a>
+        <a href="#issues" class="btn btn-outline-light btn-lg fw-bold px-4 py-2 rounded-pill">View Issues</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ISSUE CATEGORIES SECTION -->
+  <section id="categories" class="section-padding bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="section-title">What can you report?</h2>
+        <p class="text-muted">Select an issue category to explore common neighborhood hazards.</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Category 1: Roads -->
+        <div class="col-md-3 sm-6">
+          <div class="card category-card text-center p-3 h-100 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=400" class="card-img-top rounded-3 mb-3" style="height: 140px; object-fit: cover;" alt="Roads">
+            <div class="card-body p-0">
+              <h5 class="fw-bold mb-2">🛣️ Roads</h5>
+              <p class="text-secondary small mb-0">Potholes, damaged asphalt, cracked pavements, and unsafe street structures.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 2: Electricity -->
+        <div class="col-md-3 sm-6">
+          <div class="card category-card text-center p-3 h-100 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=400" class="card-img-top rounded-3 mb-3" style="height: 140px; object-fit: cover;" alt="Electricity">
+            <div class="card-body p-0">
+              <h5 class="fw-bold mb-2">💡 Electricity</h5>
+              <p class="text-secondary small mb-0">Broken streetlights, hanging power lines, and dark pedestrian pathways.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 3: Sanitation -->
+        <div class="col-md-3 sm-6">
+          <div class="card category-card text-center p-3 h-100 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=400" class="card-img-top rounded-3 mb-3" style="height: 140px; object-fit: cover;" alt="Sanitation">
+            <div class="card-body p-0">
+              <h5 class="fw-bold mb-2">🗑️ Sanitation</h5>
+              <p class="text-secondary small mb-0">Garbage overflow, illegal dumping, and uncollected waste bins.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category 4: Water & Drainage -->
+        <div class="col-md-3 sm-6">
+          <div class="card category-card text-center p-3 h-100 shadow-sm">
+            <img src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=500&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=500';" class="card-img-top rounded-3 mb-3" style="height: 140px; object-fit: cover;" alt="Water">
+            <div class="card-body p-0">
+              <h5 class="fw-bold mb-2">🚰 Water & Drainage</h5>
+              <p class="text-secondary small mb-0">Clean water main pipe leaks, blocked storm drains, and standing water.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY ISSUES & FILTER SECTION -->
+  <section id="issues" class="section-padding">
+    <div class="container">
+      <div class="text-center mb-4">
+        <h2 class="section-title">Issues Around You</h2>
+        <p class="text-muted">Explore active civic reports submitted by citizens across city wards.</p>
+      </div>
+
+      <!-- Filter Buttons (JavaScript Powered) -->
+      <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
+        <button class="btn btn-outline-primary btn-filter active px-3" onclick="filterIssues('All', this)">All Issues</button>
+        <button class="btn btn-outline-primary btn-filter px-3" onclick="filterIssues('Roads', this)">🛣️ Roads</button>
+        <button class="btn btn-outline-primary btn-filter px-3" onclick="filterIssues('Electricity', this)">💡 Electricity</button>
+        <button class="btn btn-outline-primary btn-filter px-3" onclick="filterIssues('Sanitation', this)">🗑️ Sanitation</button>
+        <button class="btn btn-outline-primary btn-filter px-3" onclick="filterIssues('Water', this)">🚰 Water & Drainage</button>
+      </div>
+
+      <!-- Issue Cards Grid -->
+      <div class="row g-4" id="issueCardsContainer">
+
+        <!-- Issue 1 -->
+        <div class="col-md-6 col-lg-3 issue-card-wrapper" data-category="Roads">
+          <div class="card issue-card h-100 shadow-sm overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?w=500" class="card-img-top" style="height: 160px; object-fit: cover;" alt="Pothole">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-secondary">Roads</span>
+                <span class="badge bg-warning text-dark">In Progress</span>
+              </div>
+              <h5 class="card-title fw-bold fs-6">Large Pothole on Main Road</h5>
+              <p class="card-text text-secondary small mb-3">Deep asphalt fracture on northbound lane causing vehicle impact hazard.</p>
+              <div class="small text-muted border-top pt-2">
+                📍 <strong>Location:</strong> Near City Market
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 2 -->
+        <div class="col-md-6 col-lg-3 issue-card-wrapper" data-category="Electricity">
+          <div class="card issue-card h-100 shadow-sm overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=500" class="card-img-top" style="height: 160px; object-fit: cover;" alt="Streetlight">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-secondary">Electricity</span>
+                <span class="badge bg-info text-dark">Acknowledged</span>
+              </div>
+              <h5 class="card-title fw-bold fs-6">Broken Streetlight Cluster</h5>
+              <p class="card-text text-secondary small mb-3">Pedestrian walkway dark for 2 nights leaving park entrance unlit.</p>
+              <div class="small text-muted border-top pt-2">
+                📍 <strong>Location:</strong> Station Road
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 3 -->
+        <div class="col-md-6 col-lg-3 issue-card-wrapper" data-category="Sanitation">
+          <div class="card issue-card h-100 shadow-sm overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=500" class="card-img-top" style="height: 160px; object-fit: cover;" alt="Garbage Overflow">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-secondary">Sanitation</span>
+                <span class="badge bg-primary">Submitted</span>
+              </div>
+              <h5 class="card-title fw-bold fs-6">Garbage Container Overflow</h5>
+              <p class="card-text text-secondary small mb-3">Multiple uncollected commercial boxes blocking sidewalk path.</p>
+              <div class="small text-muted border-top pt-2">
+                📍 <strong>Location:</strong> Central Park
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 4 -->
+        <div class="col-md-6 col-lg-3 issue-card-wrapper" data-category="Water">
+          <div class="card issue-card h-100 shadow-sm overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1584467735871-8e85353a8413?w=500&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?w=500';" class="card-img-top" style="height: 160px; object-fit: cover;" alt="Water Pipe Leak">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="badge bg-secondary">Water</span>
+                <span class="badge bg-success">Resolved</span>
+              </div>
+              <h5 class="card-title fw-bold fs-6">Pressurized Water Line Leak</h5>
+              <p class="card-text text-secondary small mb-3">Clean water leaking out from curb seam into cycle lane repaired.</p>
+              <div class="small text-muted border-top pt-2">
+                📍 <strong>Location:</strong> MG Road
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORT AN ISSUE FORM SECTION -->
+  <section id="report" class="section-padding bg-light">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="section-title">Report a Civic Issue</h2>
+        <p class="text-muted">Fill out the form below to log a new incident into the municipal queue.</p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+          
+          <!-- Success Ticket Container (Initially Hidden) -->
+          <div id="ticketResultBox" class="mb-4" style="display: none;"></div>
+
+          <!-- Alert Error Box -->
+          <div id="formAlertBox" class="alert alert-danger shadow-sm" style="display: none;"></div>
+
+          <!-- Form Container -->
+          <div class="form-box p-4 p-md-5 shadow-sm">
+            <form id="civicReportForm" onsubmit="return validateReportForm(event)">
+              
+              <!-- Reporter Name -->
+              <div class="mb-3">
+                <label for="reporterName" class="form-label fw-bold">Your Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="reporterName" placeholder="e.g. Rahul Sharma">
+              </div>
+
+              <!-- Issue Title -->
+              <div class="mb-3">
+                <label for="issueTitle" class="form-label fw-bold">Issue Title <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="issueTitle" placeholder="e.g. Large pothole near college main gate">
+              </div>
+
+              <!-- Issue Category Dropdown -->
+              <div class="mb-3">
+                <label for="issueCategory" class="form-label fw-bold">Category <span class="text-danger">*</span></label>
+                <select class="form-select" id="issueCategory">
+                  <option value="">-- Select Category --</option>
+                  <option value="Roads">Roads (Potholes, Cracks)</option>
+                  <option value="Electricity">Electricity (Streetlights, Wiring)</option>
+                  <option value="Sanitation">Sanitation (Garbage Overflow)</option>
+                  <option value="Water">Water & Drainage (Pipe Leak, Drain Block)</option>
+                </select>
+              </div>
+
+              <!-- Location Input -->
+              <div class="mb-3">
+                <label for="issueLocation" class="form-label fw-bold">Location / Landmark <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="issueLocation" placeholder="e.g. Near City Market, Ward 4">
+              </div>
+
+              <!-- Description Textarea -->
+              <div class="mb-3">
+                <label for="issueDescription" class="form-label fw-bold">Detailed Description <span class="text-danger">*</span></label>
+                <textarea class="form-control" id="issueDescription" rows="4" placeholder="Describe the hazard size, danger level, or public safety risk..."></textarea>
+              </div>
+
+              <!-- File Input -->
+              <div class="mb-4">
+                <label for="issuePhoto" class="form-label fw-bold">Upload Evidence Photo (Optional)</label>
+                <input type="file" class="form-control" id="issuePhoto" accept="image/*">
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow-sm">Submit Incident Report</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="section-padding">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-4 mb-md-0">
+          <img src="https://images.unsplash.com/photo-1477959858617-67f30ac4ce78?w=600&auto=format&fit=crop" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=600';" alt="City Skyline" class="img-fluid rounded-4 shadow">
+        </div>
+        <div class="col-md-6">
+          <h2 class="section-title text-start mb-3">About CIVICLY</h2>
+          <p class="lead text-secondary">CIVICLY is a simple civic issue reporting platform designed to make it easier for citizens to bring local problems to attention.</p>
+          <p>By empowering neighborhood residents to report hazards directly, CIVICLY bridges the gap between public awareness and maintenance action.</p>
+
+          <div class="row g-3 mt-3 text-center">
+            <div class="col-3">
+              <div class="p-2 border rounded bg-light">
+                <h6 class="fw-bold mb-0 text-primary">1. See</h6>
+                <small class="text-muted">Spot hazard</small>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="p-2 border rounded bg-light">
+                <h6 class="fw-bold mb-0 text-primary">2. Report</h6>
+                <small class="text-muted">Fill details</small>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="p-2 border rounded bg-light">
+                <h6 class="fw-bold mb-0 text-primary">3. Track</h6>
+                <small class="text-muted">Get Ticket</small>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="p-2 border rounded bg-light">
+                <h6 class="fw-bold mb-0 text-primary">4. Resolve</h6>
+                <small class="text-muted">City fixed</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-4 text-center">
+    <div class="container">
+      <p class="fw-bold mb-1 text-white">CIVICLY © 2026</p>
+      <p class="small mb-0 text-muted">Building better communities together. • FSDL Mini Project</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Custom External JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
