@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIVICLY — Government Staff Operations Portal</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+  <!-- NAVBAR (Using same navbar pattern) -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold fs-4" href="/">
+        🏙️ CIVICLY <span class="badge bg-primary fs-6 ms-2">Staff Portal</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#staffNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="staffNavbar">
+        <ul class="navbar-nav ms-auto font-weight-medium">
+          <li class="nav-item"><a class="nav-link" href="/">Public Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#issues">Issues Queue</a></li>
+          <li class="nav-item"><a class="nav-link" href="/#report">Report an Issue</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/staff">Staff Dashboard</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- STAFF HEADER -->
+  <div class="container py-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+      <div>
+        <h2 class="fw-bold text-dark mb-1">Government Staff Dashboard</h2>
+        <p class="text-secondary mb-0">Review citizen reports, monitor queue status, and update repair progress.</p>
+      </div>
+      <div>
+        <button class="btn btn-outline-primary" onclick="loadStaffIssues()">🔄 Refresh List</button>
+      </div>
+    </div>
+
+    <!-- Alert Message placeholder -->
+    <div id="staffAlert" class="alert alert-success shadow-sm" style="display: none;"></div>
+
+    <!-- ISSUES TABLE (Using standard syllabus HTML table + Bootstrap classes) -->
+    <div class="card shadow-sm border-0 rounded-3">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col" class="ps-3">Ticket ID</th>
+                <th scope="col">Reporter</th>
+                <th scope="col">Title & Category</th>
+                <th scope="col">Location</th>
+                <th scope="col">Current Status</th>
+                <th scope="col" class="text-end pe-3">Update Stage</th>
+              </tr>
+            </thead>
+            <tbody id="staffTableBody">
+              <tr>
+                <td colspan="6" class="text-center py-4 text-muted">Loading reports from database...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 text-center">
+      <small class="text-muted">Status Stages: <strong>Submitted</strong> → <strong>Acknowledged</strong> → <strong>In Progress</strong> → <strong>Completed</strong></small>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="py-4 text-center mt-5">
+    <div class="container">
+      <p class="fw-bold mb-1 text-white">CIVICLY © 2026</p>
+      <p class="small mb-0 text-muted">Government Operations Interface • FSDL Mini Project</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Staff Portal JavaScript using syllabus fetch / items pattern -->
+  <script>
+    // Load issues from Express/MongoDB API (GET /items)
+    async function loadStaffIssues() {
+      const tbody = document.getElementById("staffTableBody");
+      try {
+        const response = await fetch("/items");
+        const issues = await response.json();
+
+        if (issues.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">No civic reports found in database.</td></tr>';
+          return;
+        }
+
+        // Detect potential duplicates
+        const duplicates = {};
+        for (let i = 0; i < issues.length; i++) {
+          for (let j = i + 1; j < issues.length; j++) {
+            const a = issues[i];
+            const b = issues[j];
+            const pinA = (a.pinCode || "").toLowerCase().trim();
+            const pinB = (b.pinCode || "").toLowerCase().trim();
+            const locA = (a.locality || "").toLowerCase().trim();
+            const locB = (b.locality || "").toLowerCase().trim();
+            const markA = (a.landmark || "").toLowerCase().trim();
+            const markB = (b.landmark || "").toLowerCase().trim();
+            const catA = (a.category || "").toLowerCase().trim();
+            const catB = (b.category || "").toLowerCase().trim();
+
+            if (pinA && locA && markA && (pinA === pinB) && (locA === locB) && (markA === markB) && (catA === catB)) {
+              duplicates[a._id] = true;
+              duplicates[b._id] = true;
+            }
+          }
+        }
+
+        tbody.innerHTML = issues.map(function(item) {
+          // Status badge coloring
+          let badgeClass = "bg-primary";
+          if (item.status === "Acknowledged") badgeClass = "bg-info text-dark";
+          if (item.status === "In Progress") badgeClass = "bg-warning text-dark";
+          if (item.status === "Completed" || item.status === "Resolved") badgeClass = "bg-success";
+
+          const isDuplicate = duplicates[item._id];
+          const duplicateTag = isDuplicate
+            ? `<div class="mt-1"><span class="badge bg-warning text-dark border">⚠️ Possible duplicate — verify location</span></div>`
+            : "";
+
+          return `
+            <tr class="${isDuplicate ? 'table-warning-subtle' : ''}">
+              <td class="ps-3">
+                <strong class="text-primary">${item.ticketId || 'CIV-0000'}</strong>
+                ${duplicateTag}
+              </td>
+              <td>${item.reporterName || 'Citizen'}</td>
+              <td>
+                <div class="fw-bold">${item.title}</div>
+                <small class="badge bg-secondary">${item.category}</small>
+              </td>
+              <td>
+                <div><small><strong>Spot:</strong> ${item.landmark || item.location}</small></div>
+                <div><small class="text-muted"><strong>Area:</strong> ${item.locality || 'General'} | <strong>PIN:</strong> ${item.pinCode || 'N/A'}</small></div>
+              </td>
+              <td><span class="badge ${badgeClass}">${item.status}</span></td>
+              <td class="text-end pe-3">
+                <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateStatus('${item._id}', this.value)">
+                  <option value="" disabled selected>Change Status...</option>
+                  <option value="Submitted">Submitted</option>
+                  <option value="Acknowledged">Acknowledged</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">Error connecting to server or database.</td></tr>';
+        console.error(err);
+      }
+    }
+
+    // Update status in MongoDB via POST /update-status
+    async function updateStatus(id, newStatus) {
+      try {
+        const response = await fetch("/update-status", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: id, status: newStatus })
+        });
+        const resData = await response.json();
+
+        // Show feedback alert
+        const alertBox = document.getElementById("staffAlert");
+        alertBox.style.display = "block";
+        alertBox.innerHTML = `<strong>Updated!</strong> Status changed to <strong>${newStatus}</strong> successfully.`;
+        setTimeout(() => { alertBox.style.display = "none"; }, 3000);
+
+        // Reload table
+        loadStaffIssues();
+      } catch (err) {
+        alert("Failed to update status. Please check backend connection.");
+        console.error(err);
+      }
+    }
+
+    // Run on page open
+    loadStaffIssues();
+  </script>
+</body>
+</html>
