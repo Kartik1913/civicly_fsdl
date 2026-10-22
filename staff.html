@@ -24,10 +24,10 @@
       </button>
       <div class="collapse navbar-collapse" id="staffNavbar">
         <ul class="navbar-nav ms-auto font-weight-medium">
-          <li class="nav-item"><a class="nav-link" href="/">Public Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/#issues">Issues Queue</a></li>
-          <li class="nav-item"><a class="nav-link" href="/#report">Report an Issue</a></li>
-          <li class="nav-item"><a class="nav-link active" href="/staff">Staff Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Public Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#issues">Issues Queue</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html#report">Report an Issue</a></li>
+          <li class="nav-item"><a class="nav-link active" href="staff.html">Staff Dashboard</a></li>
         </ul>
       </div>
     </div>
@@ -166,8 +166,38 @@
           `;
         }).join("");
       } catch (err) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger">Error connecting to server or database.</td></tr>';
-        console.error(err);
+        console.warn("Backend server not running at current host (e.g. GitHub Pages static hosting). Showing local preview data:", err);
+        // Fallback default issues display for static hosts like GitHub Pages
+        const sampleStaffIssues = [
+          { ticketId: "CIV-1042", reporterName: "Rajesh Kumar", title: "Large Pothole on Main Road", category: "Roads", landmark: "Near City Market", locality: "Sector 14", pinCode: "110001", status: "In Progress" },
+          { ticketId: "CIV-1038", reporterName: "Pooja Verma", title: "Broken Streetlight Cluster", category: "Electricity", landmark: "Opposite Metro Station", locality: "Station Road", pinCode: "110001", status: "Acknowledged" },
+          { ticketId: "CIV-1029", reporterName: "Amit Sharma", title: "Garbage Container Overflow", category: "Sanitation", landmark: "Gate No 2", locality: "Central Park", pinCode: "110001", status: "Submitted" },
+          { ticketId: "CIV-1015", reporterName: "Sunita Rao", title: "Pressurized Water Line Leak", category: "Water", landmark: "Near Petrol Pump", locality: "MG Road", pinCode: "110001", status: "Completed" }
+        ];
+        tbody.innerHTML = sampleStaffIssues.map(function(item, idx) {
+          let badgeClass = "bg-primary";
+          if (item.status === "Acknowledged") badgeClass = "bg-info text-dark";
+          if (item.status === "In Progress") badgeClass = "bg-warning text-dark";
+          if (item.status === "Completed") badgeClass = "bg-success";
+          return `
+            <tr>
+              <td class="ps-3"><strong class="text-primary">${item.ticketId}</strong></td>
+              <td>${item.reporterName}</td>
+              <td><div class="fw-bold">${item.title}</div><small class="badge bg-secondary">${item.category}</small></td>
+              <td><div><small><strong>Spot:</strong> ${item.landmark}</small></div><div><small class="text-muted"><strong>Area:</strong> ${item.locality} | <strong>PIN:</strong> ${item.pinCode}</small></div></td>
+              <td><span id="staticBadge-${idx}" class="badge ${badgeClass}">${item.status}</span></td>
+              <td class="text-end pe-3">
+                <select class="form-select form-select-sm d-inline-block w-auto" onchange="document.getElementById('staticBadge-${idx}').textContent = this.value; document.getElementById('staticBadge-${idx}').className = 'badge ' + (this.value==='Completed'?'bg-success':this.value==='In Progress'?'bg-warning text-dark':this.value==='Acknowledged'?'bg-info text-dark':'bg-primary');">
+                  <option value="" disabled selected>Change Status...</option>
+                  <option value="Submitted">Submitted</option>
+                  <option value="Acknowledged">Acknowledged</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Completed">Completed</option>
+                </select>
+              </td>
+            </tr>
+          `;
+        }).join("");
       }
     }
 
